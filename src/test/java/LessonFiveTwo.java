@@ -1,14 +1,8 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.DragAndDropOptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class LessonFiveTwo {
