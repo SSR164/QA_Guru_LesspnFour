@@ -15,7 +15,7 @@ public class LessonFiveTwo {
 
     }
     @Test
-    void moveSquare(){
+    void moveSquareTest(){
         open("/drag_and_drop");
         //actions().moveToElement($("#column-a")).clickAndHold().moveToElement($("#column-b")).release().perform();
        $("#column-a").dragAndDrop(DragAndDropOptions.to($("#column-b")));

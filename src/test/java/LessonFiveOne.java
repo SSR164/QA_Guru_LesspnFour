@@ -13,16 +13,15 @@ public class LessonFiveOne {
         Configuration.browserSize = "1920x1080";
         Configuration.baseUrl = "https://github.com";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.holdBrowserOpen = true;
+        Configuration.holdBrowserOpen = false;
 
     }
     @Test
-    void searchGit(){
+    void searchGitTest(){
         open("");
         $(".HeaderMenu-nav").$(byText("Solutions")).hover();
         //выберите Solutions
-        $(".HeaderMenu-dropdown-link").$(byText("Enterprises")).click();
-        //$$(".HeaderMenu-dropdown-link").findBy(Condition.text("Enterprises")).click();
+        $$(".HeaderMenu-dropdown-link").findBy(Condition.text("Enterprises")).click();
         //$$("ul li a").findBy(Condition.text("Enterprise")).click();
         $("h1#hero-section-brand-heading").shouldHave(text("The AI-powered\n" +
                 "developer platform."));
