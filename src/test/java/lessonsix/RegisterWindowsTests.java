@@ -5,69 +5,72 @@ import org.junit.jupiter.api.Test;
 
 
 public class RegisterWindowsTests extends TestsBase {
-    RegisterPage RegisterPage = new RegisterPage();
+    RegisterPage registerPage = new RegisterPage();
+    TestsData testsData=new TestsData();
+
 
     @Test
     void testsFullData() {
-        RegisterPage.openPage();
-        RegisterPage.cleanBanner();
-        RegisterPage.setFirstName("firstname");
-        RegisterPage.setLastName("lastName");
-        RegisterPage.setUserEmail("name@egmail.com");
-        RegisterPage.setGenderWrapper("Other");
-        RegisterPage.setUserNumber("1234567890");
-        RegisterPage.setCalendar("04", "October", "1994");
-        RegisterPage.setSubjects("English");
-        RegisterPage.setHobbiesWrapper("Sports");
-        RegisterPage.setCurrentAddress("Another street 1");
-        RegisterPage.setUploadPicture("image.jpg");
-        RegisterPage.setState("NCR");
-        RegisterPage.setCity("Delhi");
-        RegisterPage.setSubmit();
-        RegisterPage.setTableResponsive("Student Name", "firstname lastName");
-        RegisterPage.setTableResponsive("Student Email", "name@egmail.com");
-        RegisterPage.setTableResponsive("Gender", "Other");
-        RegisterPage.setTableResponsive("Mobile", "1234567890");
-        RegisterPage.setTableResponsive("Date of Birth", "04 October,1994");
-        RegisterPage.setTableResponsive("Subjects", "English");
-        RegisterPage.setTableResponsive("Hobbies", "Sports");
-        RegisterPage.setTableResponsive("Picture", "image.jpg");
-        RegisterPage.setTableResponsive("Address", "Another street 1");
-        RegisterPage.setTableResponsive("State and City", "NCR Delhi");
+        registerPage.openPage();
+        registerPage.cleanBanner();
+        registerPage.setFirstName(testsData.firstName);
+        registerPage.setLastName(testsData.lastName);
+        registerPage.setUserEmail(testsData.userEmail);
+        registerPage.setGenderWrapper(testsData.randomGender);
+        registerPage.setUserNumber(testsData.userPhoneNumberCorrect);
+        registerPage.chooseCalendar(testsData.randomDay, testsData.randomMonth, testsData.randomYear);
+        registerPage.setSubjects(testsData.randomSubjects);
+        registerPage.setHobbiesWrapper(testsData.randomHobbies);
+        registerPage.setCurrentAddress(testsData.streetAddress);
+        registerPage.setUploadPicture("image.jpg");
+        registerPage.setState("NCR");
+        registerPage.setCity("Delhi");
+        registerPage.clickSubmit();
+        registerPage.checkTableResponsive("Student Name", testsData.fullName);
+        registerPage.checkTableResponsive("Student Email", testsData.userEmail);
+        registerPage.checkTableResponsive("Gender", testsData.randomGender);
+        registerPage.checkTableResponsive("Mobile", testsData.userPhoneNumberCorrect);
+        registerPage.checkTableResponsive("Date of Birth",  String.format("%s %s,%s", testsData.randomDay, testsData.randomMonth, testsData.randomYear));
+        registerPage.checkTableResponsive("Subjects", testsData.randomSubjects);
+        registerPage.checkTableResponsive("Hobbies", testsData.randomHobbies);
+        registerPage.checkTableResponsive("Picture", "image.jpg");
+        registerPage.checkTableResponsive("Address", testsData.streetAddress);
+        registerPage.checkTableResponsive("State and City", "NCR Delhi");
 
     }
 
     @Test
     void testsMinData() {
-        RegisterPage.openPage();
-        RegisterPage.cleanBanner();
-        RegisterPage.setFirstName("firstname");
-        RegisterPage.setLastName("lastName");
-        RegisterPage.setUserEmail("name@egmail.com");
-        RegisterPage.setGenderWrapper("Other");
-        RegisterPage.setUserNumber("1234567890");
-        RegisterPage.setCalendar("04", "October", "1994");
-        RegisterPage.setSubmit();
-        RegisterPage.setTableResponsive("Student Name", "firstname lastName");
-        RegisterPage.setTableResponsive("Student Email", "name@egmail.com");
-        RegisterPage.setTableResponsive("Gender", "Other");
-        RegisterPage.setTableResponsive("Mobile", "1234567890");
-        RegisterPage.setTableResponsive("Date of Birth", "04 October,1994");
+        registerPage.openPage();
+        registerPage.cleanBanner();
+        registerPage.setFirstName(testsData.firstName);
+        registerPage.setLastName(testsData.lastName);
+        registerPage.setUserEmail(testsData.userEmail);
+        registerPage.setGenderWrapper(testsData.randomGender);
+        registerPage.setUserNumber(testsData.userPhoneNumberCorrect);
+        registerPage.chooseCalendar(testsData.randomDay, testsData.randomMonth, testsData.randomYear);
+        registerPage.clickSubmit();
+        registerPage.checkTableResponsive("Student Name", testsData.fullName);
+        registerPage.checkTableResponsive("Student Email", testsData.userEmail);
+        registerPage.checkTableResponsive("Gender", testsData.randomGender);
+        registerPage.checkTableResponsive("Mobile", testsData.userPhoneNumberCorrect);
+        String fullDate = String.format("%s %s,%s", testsData.randomDay, testsData.randomMonth, testsData.randomYear);
+        registerPage.checkTableResponsive("Date of Birth", fullDate);
 
     }
 
     @Test
     void testsNegativeMobileLetters() {
-        RegisterPage.openPage();
-        RegisterPage.cleanBanner();
-        RegisterPage.setFirstName("firstname");
-        RegisterPage.setLastName("lastName");
-        RegisterPage.setUserEmail("name@egmail.com");
-        RegisterPage.setGenderWrapper("Other");
-        RegisterPage.setUserNumber("qwertyuiop");
-        RegisterPage.setCalendar("04", "October", "1994");
-        RegisterPage.setSubmit();
-        RegisterPage.checkTableNotVisible();
+        registerPage.openPage();
+        registerPage.cleanBanner();
+        registerPage.setFirstName(testsData.firstName);
+        registerPage.setLastName(testsData.lastName);
+        registerPage.setUserEmail(testsData.userEmail);
+        registerPage.setGenderWrapper(testsData.randomGender);
+        registerPage.setUserNumber(testsData.userPhoneNumberNotCorrect);
+        registerPage.chooseCalendar(testsData.randomDay, testsData.randomMonth, testsData.randomYear);
+        registerPage.clickSubmit();
+        registerPage.checkTableNotVisible();
     }
 
 

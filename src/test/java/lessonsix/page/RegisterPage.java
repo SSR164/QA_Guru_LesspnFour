@@ -1,14 +1,19 @@
 package lessonsix.page;
 
 import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import lessonsix.page.components.CalendarComponents;
 import lessonsix.page.components.RegistrationPageComponent;
+
+import java.util.Locale;
+
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class RegisterPage {
     CalendarComponents calendarComponents = new CalendarComponents();
     RegistrationPageComponent registrationPageComponent =new RegistrationPageComponent();
+
     private SelenideElement firstNameInput = $("#firstName"),
             setLastName = $("#lastName"),
             userEmailInput = $("#userEmail"),
@@ -63,7 +68,7 @@ public class RegisterPage {
         return this;
     }
 
-    public RegisterPage setCalendar(String day, String month, String year) {
+    public RegisterPage chooseCalendar(String day, String month, String year) {
         calendarInput.click();
         calendarComponents.components(day, month, year);
         return this;
@@ -101,12 +106,12 @@ public class RegisterPage {
         return this;
     }
 
-    public RegisterPage setSubmit() {
+    public RegisterPage clickSubmit() {
         submitInput.click();
         return this;
     }
 
-    public RegisterPage setTableResponsive(String key, String value) {
+    public RegisterPage checkTableResponsive(String key, String value) {
         registrationPageComponent.checkResults(key, value);
         return this;
     }
