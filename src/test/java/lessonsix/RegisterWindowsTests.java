@@ -22,20 +22,20 @@ public class RegisterWindowsTests extends TestsBase {
         registerPage.setSubjects(testsData.randomSubjects);
         registerPage.setHobbiesWrapper(testsData.randomHobbies);
         registerPage.setCurrentAddress(testsData.streetAddress);
-        registerPage.setUploadPicture("image.jpg");
-        registerPage.setState("NCR");
-        registerPage.setCity("Delhi");
+        registerPage.setUploadPicture(testsData.randomPage);
+        registerPage.setState(testsData.randomState);
+        registerPage.setCity(testsData.randomCity);
         registerPage.clickSubmit();
         registerPage.checkTableResponsive("Student Name", testsData.fullName);
         registerPage.checkTableResponsive("Student Email", testsData.userEmail);
         registerPage.checkTableResponsive("Gender", testsData.randomGender);
         registerPage.checkTableResponsive("Mobile", testsData.userPhoneNumberCorrect);
-        registerPage.checkTableResponsive("Date of Birth",  String.format("%s %s,%s", testsData.randomDay, testsData.randomMonth, testsData.randomYear));
+        registerPage.checkTableResponsive("Date of Birth", testsData.fullDate);
         registerPage.checkTableResponsive("Subjects", testsData.randomSubjects);
         registerPage.checkTableResponsive("Hobbies", testsData.randomHobbies);
-        registerPage.checkTableResponsive("Picture", "image.jpg");
+        registerPage.checkTableResponsive("Picture", testsData.randomPage);
         registerPage.checkTableResponsive("Address", testsData.streetAddress);
-        registerPage.checkTableResponsive("State and City", "NCR Delhi");
+        registerPage.checkTableResponsive("State and City", testsData.stateAndCity);
 
     }
 
@@ -54,8 +54,7 @@ public class RegisterWindowsTests extends TestsBase {
         registerPage.checkTableResponsive("Student Email", testsData.userEmail);
         registerPage.checkTableResponsive("Gender", testsData.randomGender);
         registerPage.checkTableResponsive("Mobile", testsData.userPhoneNumberCorrect);
-        String fullDate = String.format("%s %s,%s", testsData.randomDay, testsData.randomMonth, testsData.randomYear);
-        registerPage.checkTableResponsive("Date of Birth", fullDate);
+        registerPage.checkTableResponsive("Date of Birth", testsData.fullDate);
 
     }
 
