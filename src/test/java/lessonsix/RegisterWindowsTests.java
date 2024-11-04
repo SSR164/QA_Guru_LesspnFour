@@ -6,36 +6,36 @@ import org.junit.jupiter.api.Test;
 
 public class RegisterWindowsTests extends TestsBase {
     RegisterPage registerPage = new RegisterPage();
-    TestsData testsData=new TestsData();
+    TestData testData =new TestData();
 
 
     @Test
     void testsFullData() {
         registerPage.openPage();
         registerPage.cleanBanner();
-        registerPage.setFirstName(testsData.firstName);
-        registerPage.setLastName(testsData.lastName);
-        registerPage.setUserEmail(testsData.userEmail);
-        registerPage.setGenderWrapper(testsData.randomGender);
-        registerPage.setUserNumber(testsData.userPhoneNumberCorrect);
-        registerPage.chooseCalendar(testsData.randomDay, testsData.randomMonth, testsData.randomYear);
-        registerPage.setSubjects(testsData.randomSubjects);
-        registerPage.setHobbiesWrapper(testsData.randomHobbies);
-        registerPage.setCurrentAddress(testsData.streetAddress);
-        registerPage.setUploadPicture(testsData.randomPage);
-        registerPage.setState(testsData.randomState);
-        registerPage.setCity(testsData.randomCity);
+        registerPage.setFirstName(testData.firstName);
+        registerPage.setLastName(testData.lastName);
+        registerPage.setUserEmail(testData.userEmail);
+        registerPage.setGenderWrapper(testData.randomGender);
+        registerPage.setUserNumber(testData.userPhoneNumberCorrect);
+        registerPage.chooseCalendar(testData.randomDay, testData.randomMonth, testData.randomYear);
+        registerPage.setSubjects(testData.randomSubjects);
+        registerPage.setHobbiesWrapper(testData.randomHobbies);
+        registerPage.setCurrentAddress(testData.streetAddress);
+        registerPage.setUploadPicture(testData.randomPage);
+        registerPage.setState(testData.randomState);
+        registerPage.setCity(testData.randomCity);
         registerPage.clickSubmit();
-        registerPage.checkTableResponsive("Student Name", testsData.fullName);
-        registerPage.checkTableResponsive("Student Email", testsData.userEmail);
-        registerPage.checkTableResponsive("Gender", testsData.randomGender);
-        registerPage.checkTableResponsive("Mobile", testsData.userPhoneNumberCorrect);
-        registerPage.checkTableResponsive("Date of Birth", testsData.fullDate);
-        registerPage.checkTableResponsive("Subjects", testsData.randomSubjects);
-        registerPage.checkTableResponsive("Hobbies", testsData.randomHobbies);
-        registerPage.checkTableResponsive("Picture", testsData.randomPage);
-        registerPage.checkTableResponsive("Address", testsData.streetAddress);
-        registerPage.checkTableResponsive("State and City", testsData.stateAndCity);
+        registerPage.checkTableResponsive("Student Name", testData.fullName);
+        registerPage.checkTableResponsive("Student Email", testData.userEmail);
+        registerPage.checkTableResponsive("Gender", testData.randomGender);
+        registerPage.checkTableResponsive("Mobile", testData.userPhoneNumberCorrect);
+        registerPage.checkTableResponsive("Date of Birth", testData.fullDate);
+        registerPage.checkTableResponsive("Subjects", testData.randomSubjects);
+        registerPage.checkTableResponsive("Hobbies", testData.randomHobbies);
+        registerPage.checkTableResponsive("Picture", testData.randomPage);
+        registerPage.checkTableResponsive("Address", testData.streetAddress);
+        registerPage.checkTableResponsive("State and City", testData.stateAndCity);
 
     }
 
@@ -43,18 +43,18 @@ public class RegisterWindowsTests extends TestsBase {
     void testsMinData() {
         registerPage.openPage();
         registerPage.cleanBanner();
-        registerPage.setFirstName(testsData.firstName);
-        registerPage.setLastName(testsData.lastName);
-        registerPage.setUserEmail(testsData.userEmail);
-        registerPage.setGenderWrapper(testsData.randomGender);
-        registerPage.setUserNumber(testsData.userPhoneNumberCorrect);
-        registerPage.chooseCalendar(testsData.randomDay, testsData.randomMonth, testsData.randomYear);
+        registerPage.setFirstName(testData.firstName);
+        registerPage.setLastName(testData.lastName);
+        registerPage.setUserEmail(testData.userEmail);
+        registerPage.setGenderWrapper(testData.randomGender);
+        registerPage.setUserNumber(testData.userPhoneNumberCorrect);
+        registerPage.chooseCalendar(testData.randomDay, testData.randomMonth, testData.randomYear);
         registerPage.clickSubmit();
-        registerPage.checkTableResponsive("Student Name", testsData.fullName);
-        registerPage.checkTableResponsive("Student Email", testsData.userEmail);
-        registerPage.checkTableResponsive("Gender", testsData.randomGender);
-        registerPage.checkTableResponsive("Mobile", testsData.userPhoneNumberCorrect);
-        registerPage.checkTableResponsive("Date of Birth", testsData.fullDate);
+        registerPage.checkTableResponsive("Student Name", testData.fullName);
+        registerPage.checkTableResponsive("Student Email", testData.userEmail);
+        registerPage.checkTableResponsive("Gender", testData.randomGender);
+        registerPage.checkTableResponsive("Mobile", testData.userPhoneNumberCorrect);
+        registerPage.checkTableResponsive("Date of Birth", testData.fullDate);
 
     }
 
@@ -62,12 +62,25 @@ public class RegisterWindowsTests extends TestsBase {
     void testsNegativeMobileLetters() {
         registerPage.openPage();
         registerPage.cleanBanner();
-        registerPage.setFirstName(testsData.firstName);
-        registerPage.setLastName(testsData.lastName);
-        registerPage.setUserEmail(testsData.userEmail);
-        registerPage.setGenderWrapper(testsData.randomGender);
-        registerPage.setUserNumber(testsData.userPhoneNumberNotCorrect);
-        registerPage.chooseCalendar(testsData.randomDay, testsData.randomMonth, testsData.randomYear);
+        registerPage.setFirstName(testData.firstName);
+        registerPage.setLastName(testData.lastName);
+        registerPage.setUserEmail(testData.userEmail);
+        registerPage.setGenderWrapper(testData.randomGender);
+        registerPage.setUserNumber(testData.userPhoneNumberNotCorrect);
+        registerPage.chooseCalendar(testData.randomDay, testData.randomMonth, testData.randomYear);
+        registerPage.clickSubmit();
+        registerPage.checkTableNotVisible();
+    }
+    @Test
+    void testsNegativeMobileLMin() {
+        registerPage.openPage();
+        registerPage.cleanBanner();
+        registerPage.setFirstName(testData.firstName);
+        registerPage.setLastName(testData.lastName);
+        registerPage.setUserEmail(testData.userEmail);
+        registerPage.setGenderWrapper(testData.randomGender);
+        registerPage.setUserNumber(testData.userPhoneNumberMin);
+        registerPage.chooseCalendar(testData.randomDay, testData.randomMonth, testData.randomYear);
         registerPage.clickSubmit();
         registerPage.checkTableNotVisible();
     }
