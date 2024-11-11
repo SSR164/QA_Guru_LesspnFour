@@ -38,7 +38,7 @@ public class TestData {
         NOVEMBER("November"),
         DECEMBER("December");
 
-        private String value;
+        private final String value;
 
         Month(String value) {
             this.value = value;
@@ -55,7 +55,7 @@ public class TestData {
         OTHER("Other");
 
 
-        private String value;
+        private final String value;
 
         Gender(String value) {
             this.value = value;
@@ -72,7 +72,7 @@ public class TestData {
         MUSIC("Music");
 
 
-        private String value;
+        private final String value;
 
         Hobbi(String value) {
             this.value = value;
@@ -97,7 +97,7 @@ public class TestData {
         HINDI("Hindi");
 
 
-        private String value;
+        private final String value;
 
         Subject(String value) {
             this.value = value;
@@ -114,7 +114,7 @@ public class TestData {
         HARYANA("Haryana"),
         RAJASTHAN("Rajasthan");
 
-        private String value;
+        private final String value;
 
         State(String value) {
             this.value = value;
