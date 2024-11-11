@@ -1,9 +1,26 @@
 package lessonsix;
 
+import static lessonsix.TestData.City.AGRA;
+import static lessonsix.TestData.City.DELHI;
+import static lessonsix.TestData.City.GURGAON;
+import static lessonsix.TestData.City.JAIPUR;
+import static lessonsix.TestData.City.JAISELMER;
+import static lessonsix.TestData.City.KARNAL;
+import static lessonsix.TestData.City.LUCKNOW;
+import static lessonsix.TestData.City.MERRUT;
+import static lessonsix.TestData.City.NOIDA;
+import static lessonsix.TestData.City.PANIPAT;
+import static lessonsix.TestData.State.HARYANA;
+import static lessonsix.TestData.State.NCR;
+import static lessonsix.TestData.State.RAJASTHAN;
+import static lessonsix.TestData.State.UTTARPRADESH;
+
 import com.github.javafaker.Faker;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TestData {
@@ -108,72 +125,33 @@ public class TestData {
         }
     }
 
-    enum CityNCR {
+    enum City {
         DELHI("Delhi"),
         GURGAON("Gurgaon"),
-        NOIDA("Noida");
-
-
-        private String value;
-
-        CityNCR(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
-    enum CityUttarPradesh {
+        NOIDA("Noida"),
         AGRA("Agra"),
         LUCKNOW("Lucknow"),
-        MERRUT("Merrut");
-
-
-        private String value;
-
-        CityUttarPradesh(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
-    enum CityHaryana {
+        MERRUT("Merrut"),
         KARNAL("Karnal"),
-        PANIPAT("Panipat");
-
-
-        private String value;
-
-        CityHaryana(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
-    enum CityRajasthan {
+        PANIPAT("Panipat"),
         JAIPUR("Jaipur"),
         JAISELMER("Jaiselmer");
 
-
-        private String value;
-
-        CityRajasthan(String value) {
+        City(String value) {
             this.value = value;
         }
+
+        private final String value;
 
         public String getValue() {
             return value;
         }
     }
 
+    Map<State, Set<City>> cityByState = Map.of(NCR, Set.of(DELHI, GURGAON, NOIDA),
+            UTTARPRADESH, Set.of(AGRA, LUCKNOW, MERRUT),
+            HARYANA, Set.of(KARNAL, PANIPAT),
+            RAJASTHAN, Set.of(JAIPUR, JAISELMER));
     Random random = new Random();
     String tenLetterify = "??????????";
     Faker faker = new Faker(new Locale("en-GB"));
@@ -195,9 +173,7 @@ public class TestData {
     State randomState = getRandomState();
     String randomCity = getRandomCity(randomState);
     String stateAndCity = String.format("%s %s", randomState, randomCity);
-    String[] page = {"pageOne.jpg", "pageTwo.jpg", "pageThree.jpg"};
-    int randomIndexPage = random.nextInt(page.length);
-    String randomPage = page[randomIndexPage];
+    String randomPage = getRandomArrayElement(new String[]{"pageOne.jpg", "pageTwo.jpg", "pageThree.jpg"});
 
     Gender getRandomGender() {
         return getRandomEnum(Gender.class);
@@ -232,17 +208,18 @@ public class TestData {
     }
 
     String getRandomCity(State state) {
-        return switch (state) {
-            case NCR -> getRandomEnum(CityNCR.class).getValue();
-            case UTTARPRADESH -> getRandomEnum(CityUttarPradesh.class).getValue();
-            case HARYANA -> getRandomEnum(CityHaryana.class).getValue();
-            case RAJASTHAN -> getRandomEnum(CityRajasthan.class).getValue();
-        };
+        return getRandomArrayElement(
+                cityByState.get(state)
+                        .toArray(City[]::new))
+                .getValue();
     }
 
     <T extends Enum<?>> T getRandomEnum(Class<T> clazz) {
-        T[] enumConstants = clazz.getEnumConstants();
-        int randomIndex = ThreadLocalRandom.current().nextInt(0, enumConstants.length);
-        return enumConstants[randomIndex];
+        return getRandomArrayElement(clazz.getEnumConstants());
+    }
+
+    <T> T getRandomArrayElement(T[] array) {
+        int randomIndex = ThreadLocalRandom.current().nextInt(0, array.length);
+        return array[randomIndex];
     }
 }

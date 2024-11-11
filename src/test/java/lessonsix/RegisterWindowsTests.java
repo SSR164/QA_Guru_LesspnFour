@@ -85,7 +85,5 @@ public class RegisterWindowsTests extends TestsBase {
         registerPage.clickSubmit();
         registerPage.checkTableNotVisible();
     }
-
-
 }
 
