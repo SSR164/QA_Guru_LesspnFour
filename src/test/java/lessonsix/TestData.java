@@ -180,75 +180,69 @@ public class TestData {
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
     String fullName = String.format("%s %s", firstName, lastName);
-    String randomGender = getRandomGender();
+    Gender randomGender = getRandomGender();
     String userEmail = faker.internet().emailAddress();
     String streetAddress = faker.address().streetAddress();
     String userPhoneNumberCorrect = faker.number().digits(10);
     String userPhoneNumberMin = faker.number().digits(9);
     String userPhoneNumberNotCorrect = faker.letterify(tenLetterify);
-    String randomMonth = getRandomMonth();
+    Month randomMonth = getRandomMonth();
     String randomYear = String.valueOf(random.nextInt(1930, 2024));
     String randomDay = getRandomDay(randomMonth);
     String fullDate = String.format("%s %s,%s", randomDay, randomMonth, randomYear);
-    String randomSubjects = getRandomSubjects();
-    String randomHobbies = getRandomHobbies();
-    String randomState = getRandomState();
+    Subject randomSubjects = getRandomSubjects();
+    Hobbi randomHobbies = getRandomHobbies();
+    State randomState = getRandomState();
     String randomCity = getRandomCity(randomState);
     String stateAndCity = String.format("%s %s", randomState, randomCity);
     String[] page = {"pageOne.jpg", "pageTwo.jpg", "pageThree.jpg"};
     int randomIndexPage = random.nextInt(page.length);
     String randomPage = page[randomIndexPage];
 
-    String getRandomGender() {
-        return Gender.values()[ThreadLocalRandom.current().nextInt(0, Gender.values().length)].getValue();
+    Gender getRandomGender() {
+        return getRandomEnum(Gender.class);
     }
 
-    String getRandomMonth() {
-        return Month.values()[ThreadLocalRandom.current().nextInt(0, Month.values().length)].getValue();
+    Month getRandomMonth() {
+        return getRandomEnum(Month.class);
     }
 
-    String getRandomDay(String month) {
+    String getRandomDay(Month month) {
         int thirteenthOneDay = faker.number().numberBetween(1, 31);
         int thirteenDay = faker.number().numberBetween(1, 30);
         int twentyEightDay = faker.number().numberBetween(1, 28);
-        int randomDay;
-        String randomDayStr;
-        switch (month) {
-            case "January", "March", "May", "July", "August", "October", "December" -> randomDay = thirteenthOneDay;
-            case "April", "June", "September", "November" -> randomDay = thirteenDay;
-            case "February" -> randomDay = twentyEightDay;
-            default -> randomDay = thirteenthOneDay;
-        }
-        if (randomDay < 10) {
-            randomDayStr = 0 + String.valueOf(randomDay);
-            return randomDayStr;
-        } else {
-            return String.valueOf(randomDay);
-        }
+        int randomDay = switch (month) {
+            case JANUARY, MARCH, MAY, JULY, AUGUST, OCTOBER, DECEMBER -> thirteenthOneDay;
+            case APRIL, JUNE, SEPTEMBER, NOVEMBER -> thirteenDay;
+            case FEBRUARY -> twentyEightDay;
+        };
+        return randomDay < 10 ? 0 + String.valueOf(randomDay) : String.valueOf(randomDay);
     }
 
-    String getRandomSubjects() {
-        return Subject.values()[ThreadLocalRandom.current().nextInt(0, Subject.values().length)].getValue();
+    Subject getRandomSubjects() {
+        return getRandomEnum(Subject.class);
     }
 
-    String getRandomHobbies() {
-        return Hobbi.values()[ThreadLocalRandom.current().nextInt(0, Hobbi.values().length)].getValue();
+    Hobbi getRandomHobbies() {
+        return getRandomEnum(Hobbi.class);
     }
 
-    String getRandomState() {
-        return State.values()[ThreadLocalRandom.current().nextInt(0, State.values().length)].getValue();
+    State getRandomState() {
+        return getRandomEnum(State.class);
     }
 
-    String getRandomCity(String state) {
-        String resultGetRandomCity;
+    String getRandomCity(State state) {
+        return switch (state) {
+            case NCR -> getRandomEnum(CityNCR.class).getValue();
+            case UTTARPRADESH -> getRandomEnum(CityUttarPradesh.class).getValue();
+            case HARYANA -> getRandomEnum(CityHaryana.class).getValue();
+            case RAJASTHAN -> getRandomEnum(CityRajasthan.class).getValue();
+        };
+    }
 
-        switch (state) {
-            case "NCR" -> resultGetRandomCity = CityNCR.values()[ThreadLocalRandom.current().nextInt(0, CityNCR.values().length)].getValue();
-            case "Uttar Pradesh" -> resultGetRandomCity = CityUttarPradesh.values()[ThreadLocalRandom.current().nextInt(0, CityUttarPradesh.values().length)].getValue();
-            case "Haryana" -> resultGetRandomCity = CityHaryana.values()[ThreadLocalRandom.current().nextInt(0, CityHaryana.values().length)].getValue();
-            case "Rajasthan" -> resultGetRandomCity = CityRajasthan.values()[ThreadLocalRandom.current().nextInt(0, CityRajasthan.values().length)].getValue();
-            default -> resultGetRandomCity = "";
-        }
-        return resultGetRandomCity;
+    <T extends Enum<?>> T getRandomEnum(Class<T> clazz) {
+        T[] enumConstants = clazz.getEnumConstants();
+        int randomIndex = ThreadLocalRandom.current().nextInt(0, enumConstants.length);
+        return enumConstants[randomIndex];
     }
 }
