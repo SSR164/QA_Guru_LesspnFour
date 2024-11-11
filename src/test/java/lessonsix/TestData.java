@@ -1,12 +1,14 @@
 package lessonsix;
+
 import com.github.javafaker.Faker;
+
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TestData {
     enum Month {
-        JANUARY ("January"),
+        JANUARY("January"),
         FEBRUARY("February"),
         MARCH("March"),
         APRIL("April"),
@@ -19,40 +21,47 @@ public class TestData {
         NOVEMBER("November"),
         DECEMBER("December");
 
-       private String value;
-        Month(String value){
-            this.value=value;
+        private String value;
+
+        Month(String value) {
+            this.value = value;
         }
-        public String getValue(){
+
+        public String getValue() {
             return value;
         }
     }
 
-        enum Gender{
-            MALE ("Male"),
-            FEMALE ("Female"),
-            OTHER ("Other");
-
-
-            private String value;
-            Gender(String value){
-                this.value=value;
-            }
-            public String getValue(){
-                return value;
-            }
-        }
-    enum Hobbi{
-       SPORTS ("Sports"),
-        READING ("Reading"),
-        MUSIC ("Music");
+    enum Gender {
+        MALE("Male"),
+        FEMALE("Female"),
+        OTHER("Other");
 
 
         private String value;
-        Hobbi(String value){
-            this.value=value;
+
+        Gender(String value) {
+            this.value = value;
         }
-        public String getValue(){
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    enum Hobbi {
+        SPORTS("Sports"),
+        READING("Reading"),
+        MUSIC("Music");
+
+
+        private String value;
+
+        Hobbi(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
             return value;
         }
     }
@@ -72,10 +81,12 @@ public class TestData {
 
 
         private String value;
-        Subject(String value){
-            this.value=value;
+
+        Subject(String value) {
+            this.value = value;
         }
-        public String getValue(){
+
+        public String getValue() {
             return value;
         }
     }
@@ -96,9 +107,10 @@ public class TestData {
             return value;
         }
     }
+
     enum CityNCR {
         DELHI("Delhi"),
-        GURGAON ("Gurgaon"),
+        GURGAON("Gurgaon"),
         NOIDA("Noida");
 
 
@@ -112,9 +124,10 @@ public class TestData {
             return value;
         }
     }
+
     enum CityUttarPradesh {
         AGRA("Agra"),
-        LUCKNOW ("Lucknow"),
+        LUCKNOW("Lucknow"),
         MERRUT("Merrut");
 
 
@@ -128,9 +141,10 @@ public class TestData {
             return value;
         }
     }
+
     enum CityHaryana {
         KARNAL("Karnal"),
-        PANIPAT ("Panipat");
+        PANIPAT("Panipat");
 
 
         private String value;
@@ -143,6 +157,7 @@ public class TestData {
             return value;
         }
     }
+
     enum CityRajasthan {
         JAIPUR("Jaipur"),
         JAISELMER("Jaiselmer");
@@ -158,27 +173,40 @@ public class TestData {
             return value;
         }
     }
+
     Random random = new Random();
     String tenLetterify = "??????????";
     Faker faker = new Faker(new Locale("en-GB"));
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
     String fullName = String.format("%s %s", firstName, lastName);
-    String getRandomGender(){
-        return Gender.values()[ThreadLocalRandom.current().nextInt(0,Gender.values().length)].getValue();
-    }
     String randomGender = getRandomGender();
     String userEmail = faker.internet().emailAddress();
     String streetAddress = faker.address().streetAddress();
     String userPhoneNumberCorrect = faker.number().digits(10);
     String userPhoneNumberMin = faker.number().digits(9);
     String userPhoneNumberNotCorrect = faker.letterify(tenLetterify);
+    String randomMonth = getRandomMonth();
+    String randomYear = String.valueOf(random.nextInt(1930, 2024));
+    String randomDay = getRandomDay(randomMonth);
+    String fullDate = String.format("%s %s,%s", randomDay, randomMonth, randomYear);
+    String randomSubjects = getRandomSubjects();
+    String randomHobbies = getRandomHobbies();
+    String randomState = getRandomState();
+    String randomCity = getRandomCity(randomState);
+    String stateAndCity = String.format("%s %s", randomState, randomCity);
+    String[] page = {"pageOne.jpg", "pageTwo.jpg", "pageThree.jpg"};
+    int randomIndexPage = random.nextInt(page.length);
+    String randomPage = page[randomIndexPage];
+
+    String getRandomGender() {
+        return Gender.values()[ThreadLocalRandom.current().nextInt(0, Gender.values().length)].getValue();
+    }
 
     String getRandomMonth() {
         return Month.values()[ThreadLocalRandom.current().nextInt(0, Month.values().length)].getValue();
     }
-    String randomMonth=getRandomMonth();
-    String randomYear = String.valueOf(random.nextInt(1930, 2024));
+
     String getRandomDay(String month) {
         int thirteenthOneDay = faker.number().numberBetween(1, 31);
         int thirteenDay = faker.number().numberBetween(1, 30);
@@ -186,10 +214,10 @@ public class TestData {
         int randomDay;
         String randomDayStr;
         switch (month) {
-            case "January","March","May","July","August","October","December"-> randomDay = thirteenthOneDay;
-            case "April","June","September","November"->randomDay=thirteenDay;
-            case "February"->randomDay = twentyEightDay;
-            default-> randomDay = thirteenthOneDay;
+            case "January", "March", "May", "July", "August", "October", "December" -> randomDay = thirteenthOneDay;
+            case "April", "June", "September", "November" -> randomDay = thirteenDay;
+            case "February" -> randomDay = twentyEightDay;
+            default -> randomDay = thirteenthOneDay;
         }
         if (randomDay < 10) {
             randomDayStr = 0 + String.valueOf(randomDay);
@@ -199,39 +227,28 @@ public class TestData {
         }
     }
 
-    String randomDay = getRandomDay(randomMonth);
-    String fullDate = String.format("%s %s,%s", randomDay, randomMonth, randomYear);
-
     String getRandomSubjects() {
         return Subject.values()[ThreadLocalRandom.current().nextInt(0, Subject.values().length)].getValue();
     }
-    String randomSubjects = getRandomSubjects();
 
     String getRandomHobbies() {
         return Hobbi.values()[ThreadLocalRandom.current().nextInt(0, Hobbi.values().length)].getValue();
     }
-    String randomHobbies = getRandomHobbies();
+
     String getRandomState() {
         return State.values()[ThreadLocalRandom.current().nextInt(0, State.values().length)].getValue();
     }
-    String randomState = getRandomState();
 
     String getRandomCity(String state) {
-       String resultGetRandomCity;
+        String resultGetRandomCity;
 
         switch (state) {
             case "NCR" -> resultGetRandomCity = CityNCR.values()[ThreadLocalRandom.current().nextInt(0, CityNCR.values().length)].getValue();
             case "Uttar Pradesh" -> resultGetRandomCity = CityUttarPradesh.values()[ThreadLocalRandom.current().nextInt(0, CityUttarPradesh.values().length)].getValue();
             case "Haryana" -> resultGetRandomCity = CityHaryana.values()[ThreadLocalRandom.current().nextInt(0, CityHaryana.values().length)].getValue();
             case "Rajasthan" -> resultGetRandomCity = CityRajasthan.values()[ThreadLocalRandom.current().nextInt(0, CityRajasthan.values().length)].getValue();
-            default ->resultGetRandomCity="";
+            default -> resultGetRandomCity = "";
         }
         return resultGetRandomCity;
     }
-    String randomCity=getRandomCity(randomState);
-    String stateAndCity= String.format("%s %s", randomState,randomCity);
-
-    String[] page = {"pageOne.jpg", "pageTwo.jpg", "pageThree.jpg"};
-    int randomIndexPage = random.nextInt(page.length);
-    String randomPage= page[randomIndexPage];
 }
