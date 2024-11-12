@@ -1,15 +1,5 @@
 package lessonsix;
 
-import static lessonsix.TestData.City.AGRA;
-import static lessonsix.TestData.City.DELHI;
-import static lessonsix.TestData.City.GURGAON;
-import static lessonsix.TestData.City.JAIPUR;
-import static lessonsix.TestData.City.JAISELMER;
-import static lessonsix.TestData.City.KARNAL;
-import static lessonsix.TestData.City.LUCKNOW;
-import static lessonsix.TestData.City.MERRUT;
-import static lessonsix.TestData.City.NOIDA;
-import static lessonsix.TestData.City.PANIPAT;
 import static lessonsix.TestData.State.HARYANA;
 import static lessonsix.TestData.State.NCR;
 import static lessonsix.TestData.State.RAJASTHAN;
@@ -17,11 +7,13 @@ import static lessonsix.TestData.State.UTTARPRADESH;
 
 import com.github.javafaker.Faker;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class TestData {
     enum Month {
@@ -126,32 +118,36 @@ public class TestData {
     }
 
     enum City {
-        DELHI("Delhi"),
-        GURGAON("Gurgaon"),
-        NOIDA("Noida"),
-        AGRA("Agra"),
-        LUCKNOW("Lucknow"),
-        MERRUT("Merrut"),
-        KARNAL("Karnal"),
-        PANIPAT("Panipat"),
-        JAIPUR("Jaipur"),
-        JAISELMER("Jaiselmer");
+        DELHI("Delhi", NCR),
+        GURGAON("Gurgaon", NCR),
+        NOIDA("Noida", NCR),
+        AGRA("Agra", UTTARPRADESH),
+        LUCKNOW("Lucknow", UTTARPRADESH),
+        MERRUT("Merrut", UTTARPRADESH),
+        KARNAL("Karnal", HARYANA),
+        PANIPAT("Panipat", HARYANA),
+        JAIPUR("Jaipur", RAJASTHAN),
+        JAISELMER("Jaiselmer", RAJASTHAN);
 
-        City(String value) {
+        City(String value, State state) {
             this.value = value;
+            this.state = state;
         }
 
         private final String value;
+        private final State state;
 
         public String getValue() {
             return value;
         }
+
+        public State getState() {
+            return state;
+        }
     }
 
-    Map<State, Set<City>> cityByState = Map.of(NCR, Set.of(DELHI, GURGAON, NOIDA),
-            UTTARPRADESH, Set.of(AGRA, LUCKNOW, MERRUT),
-            HARYANA, Set.of(KARNAL, PANIPAT),
-            RAJASTHAN, Set.of(JAIPUR, JAISELMER));
+    Map<State, List<City>> cityByState = Arrays.stream(City.values())
+            .collect(Collectors.groupingBy(City::getState));
     Random random = new Random();
     String tenLetterify = "??????????";
     Faker faker = new Faker(new Locale("en-GB"));
