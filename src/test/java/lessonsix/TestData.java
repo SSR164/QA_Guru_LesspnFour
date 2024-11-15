@@ -1,12 +1,23 @@
 package lessonsix;
+
+import static lessonsix.TestData.State.HARYANA;
+import static lessonsix.TestData.State.NCR;
+import static lessonsix.TestData.State.RAJASTHAN;
+import static lessonsix.TestData.State.UTTARPRADESH;
+
 import com.github.javafaker.Faker;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class TestData {
     enum Month {
-        JANUARY ("January"),
+        JANUARY("January"),
         FEBRUARY("February"),
         MARCH("March"),
         APRIL("April"),
@@ -19,40 +30,47 @@ public class TestData {
         NOVEMBER("November"),
         DECEMBER("December");
 
-       private String value;
-        Month(String value){
-            this.value=value;
+        private final String value;
+
+        Month(String value) {
+            this.value = value;
         }
-        public String getValue(){
+
+        public String getValue() {
             return value;
         }
     }
 
-        enum Gender{
-            MALE ("Male"),
-            FEMALE ("Female"),
-            OTHER ("Other");
+    enum Gender {
+        MALE("Male"),
+        FEMALE("Female"),
+        OTHER("Other");
 
 
-            private String value;
-            Gender(String value){
-                this.value=value;
-            }
-            public String getValue(){
-                return value;
-            }
+        private final String value;
+
+        Gender(String value) {
+            this.value = value;
         }
-    enum Hobbi{
-       SPORTS ("Sports"),
-        READING ("Reading"),
-        MUSIC ("Music");
 
-
-        private String value;
-        Hobbi(String value){
-            this.value=value;
+        public String getValue() {
+            return value;
         }
-        public String getValue(){
+    }
+
+    enum Hobbi {
+        SPORTS("Sports"),
+        READING("Reading"),
+        MUSIC("Music");
+
+
+        private final String value;
+
+        Hobbi(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
             return value;
         }
     }
@@ -71,11 +89,13 @@ public class TestData {
         HINDI("Hindi");
 
 
-        private String value;
-        Subject(String value){
-            this.value=value;
+        private final String value;
+
+        Subject(String value) {
+            this.value = value;
         }
-        public String getValue(){
+
+        public String getValue() {
             return value;
         }
     }
@@ -86,7 +106,7 @@ public class TestData {
         HARYANA("Haryana"),
         RAJASTHAN("Rajasthan");
 
-        private String value;
+        private final String value;
 
         State(String value) {
             this.value = value;
@@ -96,142 +116,106 @@ public class TestData {
             return value;
         }
     }
-    enum CityNCR {
-        DELHI("Delhi"),
-        GURGAON ("Gurgaon"),
-        NOIDA("Noida");
 
+    enum City {
+        DELHI("Delhi", NCR),
+        GURGAON("Gurgaon", NCR),
+        NOIDA("Noida", NCR),
+        AGRA("Agra", UTTARPRADESH),
+        LUCKNOW("Lucknow", UTTARPRADESH),
+        MERRUT("Merrut", UTTARPRADESH),
+        KARNAL("Karnal", HARYANA),
+        PANIPAT("Panipat", HARYANA),
+        JAIPUR("Jaipur", RAJASTHAN),
+        JAISELMER("Jaiselmer", RAJASTHAN);
 
-        private String value;
-
-        CityNCR(String value) {
+        City(String value, State state) {
             this.value = value;
+            this.state = state;
         }
+
+        private final String value;
+        private final State state;
 
         public String getValue() {
             return value;
         }
-    }
-    enum CityUttarPradesh {
-        AGRA("Agra"),
-        LUCKNOW ("Lucknow"),
-        MERRUT("Merrut");
 
-
-        private String value;
-
-        CityUttarPradesh(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
+        public State getState() {
+            return state;
         }
     }
-    enum CityHaryana {
-        KARNAL("Karnal"),
-        PANIPAT ("Panipat");
 
-
-        private String value;
-
-        CityHaryana(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-    enum CityRajasthan {
-        JAIPUR("Jaipur"),
-        JAISELMER("Jaiselmer");
-
-
-        private String value;
-
-        CityRajasthan(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
+    Map<State, List<City>> cityByState = Arrays.stream(City.values())
+            .collect(Collectors.groupingBy(City::getState));
     Random random = new Random();
     String tenLetterify = "??????????";
     Faker faker = new Faker(new Locale("en-GB"));
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
     String fullName = String.format("%s %s", firstName, lastName);
-    String getRandomGender(){
-        return Gender.values()[ThreadLocalRandom.current().nextInt(0,Gender.values().length)].getValue();
-    }
-    String randomGender = getRandomGender();
+    Gender randomGender = getRandomGender();
     String userEmail = faker.internet().emailAddress();
     String streetAddress = faker.address().streetAddress();
     String userPhoneNumberCorrect = faker.number().digits(10);
     String userPhoneNumberMin = faker.number().digits(9);
     String userPhoneNumberNotCorrect = faker.letterify(tenLetterify);
-
-    String getRandomMonth() {
-        return Month.values()[ThreadLocalRandom.current().nextInt(0, Month.values().length)].getValue();
-    }
-    String randomMonth=getRandomMonth();
+    Month randomMonth = getRandomMonth();
     String randomYear = String.valueOf(random.nextInt(1930, 2024));
-    String getRandomDay(String month) {
+    String randomDay = getRandomDay(randomMonth);
+    String fullDate = String.format("%s %s,%s", randomDay, randomMonth, randomYear);
+    Subject randomSubjects = getRandomSubjects();
+    Hobbi randomHobbies = getRandomHobbies();
+    State randomState = getRandomState();
+    String randomCity = getRandomCity(randomState);
+    String stateAndCity = String.format("%s %s", randomState, randomCity);
+    String randomPage = getRandomArrayElement(new String[]{"pageOne.jpg", "pageTwo.jpg", "pageThree.jpg"});
+
+    Gender getRandomGender() {
+        return getRandomEnum(Gender.class);
+    }
+
+    Month getRandomMonth() {
+        return getRandomEnum(Month.class);
+    }
+
+    String getRandomDay(Month month) {
         int thirteenthOneDay = faker.number().numberBetween(1, 31);
         int thirteenDay = faker.number().numberBetween(1, 30);
         int twentyEightDay = faker.number().numberBetween(1, 28);
-        int randomDay;
-        String randomDayStr;
-        switch (month) {
-            case "January","March","May","July","August","October","December"-> randomDay = thirteenthOneDay;
-            case "April","June","September","November"->randomDay=thirteenDay;
-            case "February"->randomDay = twentyEightDay;
-            default-> randomDay = thirteenthOneDay;
-        }
-        if (randomDay < 10) {
-            randomDayStr = 0 + String.valueOf(randomDay);
-            return randomDayStr;
-        } else {
-            return String.valueOf(randomDay);
-        }
+        int randomDay = switch (month) {
+            case JANUARY, MARCH, MAY, JULY, AUGUST, OCTOBER, DECEMBER -> thirteenthOneDay;
+            case APRIL, JUNE, SEPTEMBER, NOVEMBER -> thirteenDay;
+            case FEBRUARY -> twentyEightDay;
+        };
+        return randomDay < 10 ? 0 + String.valueOf(randomDay) : String.valueOf(randomDay);
     }
 
-    String randomDay = getRandomDay(randomMonth);
-    String fullDate = String.format("%s %s,%s", randomDay, randomMonth, randomYear);
-
-    String getRandomSubjects() {
-        return Subject.values()[ThreadLocalRandom.current().nextInt(0, Subject.values().length)].getValue();
+    Subject getRandomSubjects() {
+        return getRandomEnum(Subject.class);
     }
-    String randomSubjects = getRandomSubjects();
 
-    String getRandomHobbies() {
-        return Hobbi.values()[ThreadLocalRandom.current().nextInt(0, Hobbi.values().length)].getValue();
+    Hobbi getRandomHobbies() {
+        return getRandomEnum(Hobbi.class);
     }
-    String randomHobbies = getRandomHobbies();
-    String getRandomState() {
-        return State.values()[ThreadLocalRandom.current().nextInt(0, State.values().length)].getValue();
+
+    State getRandomState() {
+        return getRandomEnum(State.class);
     }
-    String randomState = getRandomState();
 
-    String getRandomCity(String state) {
-       String resultGetRandomCity;
-
-        switch (state) {
-            case "NCR" -> resultGetRandomCity = CityNCR.values()[ThreadLocalRandom.current().nextInt(0, CityNCR.values().length)].getValue();
-            case "Uttar Pradesh" -> resultGetRandomCity = CityUttarPradesh.values()[ThreadLocalRandom.current().nextInt(0, CityUttarPradesh.values().length)].getValue();
-            case "Haryana" -> resultGetRandomCity = CityHaryana.values()[ThreadLocalRandom.current().nextInt(0, CityHaryana.values().length)].getValue();
-            case "Rajasthan" -> resultGetRandomCity = CityRajasthan.values()[ThreadLocalRandom.current().nextInt(0, CityRajasthan.values().length)].getValue();
-            default ->resultGetRandomCity="";
-        }
-        return resultGetRandomCity;
+    String getRandomCity(State state) {
+        return getRandomArrayElement(
+                cityByState.get(state)
+                        .toArray(City[]::new))
+                .getValue();
     }
-    String randomCity=getRandomCity(randomState);
-    String stateAndCity= String.format("%s %s", randomState,randomCity);
 
-    String[] page = {"pageOne.jpg", "pageTwo.jpg", "pageThree.jpg"};
-    int randomIndexPage = random.nextInt(page.length);
-    String randomPage= page[randomIndexPage];
+    <T extends Enum<?>> T getRandomEnum(Class<T> clazz) {
+        return getRandomArrayElement(clazz.getEnumConstants());
+    }
+
+    <T> T getRandomArrayElement(T[] array) {
+        int randomIndex = ThreadLocalRandom.current().nextInt(0, array.length);
+        return array[randomIndex];
+    }
 }
